@@ -5,12 +5,13 @@ import styles from "./layout.module.css";
 import utilStyles from "../styles/utils.module.css";
 
 const name = "브리셀";
-export const siteTitle = "절대음감 테스트";
+export const siteTitle = "절대음감 챌린지";
 
 export default function Layout({ children, home }) {
   return (
     <div className={styles.container}>
       <Head>
+        <title>{siteTitle}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="절대음감에 도전해보자!" />
         <meta
@@ -22,7 +23,7 @@ export default function Layout({ children, home }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header className={styles.header}>
+      {/* <header className={styles.header}>
         {home ? (
           <>
             <Image
@@ -56,15 +57,17 @@ export default function Layout({ children, home }) {
             </h2>
           </>
         )}
-      </header>
-      <main>{children}</main>
-      {!home && (
-        <div className={styles.backToHome}>
-          <Link href="/">
-            <a>← Back to home</a>
-          </Link>
-        </div>
-      )}
+      </header> */}
+      <div className={styles.container}>
+        <main className={styles.main}>{children}</main>
+        {!home && (
+          <div className={styles.backToHome}>
+            <Link href="/">
+              <a>← Back to home</a>
+            </Link>
+          </div>
+        )}
+      </div>
       <footer className={styles.footer}>
         <a href="https://vrisel.github.io/" target="_blank" rel="noreferrer">
           Made by
