@@ -38,7 +38,6 @@ export default {
   },
   computed: {
     frequency() {
-      console.log(this.answer);
       const octave =
         parseInt(this.answer.slice(this.answer.length - 2)) ||
         parseInt(this.answer.slice(this.answer.length - 1));
@@ -62,7 +61,7 @@ export default {
       return this.pitch * Math.pow(2, noteNumber / 12) * (octave - 3);
     },
     noteCandidates() {
-      return this.level > 3
+      return this.level > 2
         ? ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
         : ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     },
@@ -71,33 +70,33 @@ export default {
     step() {
       switch (this.level) {
         case 1:
-          this.answer = this.randomNote(4, 4, false);
+          this.answer = this.randomNote('C4', 'B4', false);
           break;
         case 2:
-          this.answer = this.randomNote(4, 5, false);
+          this.answer = this.randomNote('C4', 'B5', false);
           break;
         case 3:
-          this.answer = this.randomNote(4, 5, true);
+          this.answer = this.randomNote('C4', 'B5', true);
           break;
         default:
           alert('끝!');
       }
     },
   },
-  beforeMount() {
-    this.answer = this.randomNote(4, 4, false);
+  created() {
+    this.answer = this.randomNote('C4', 'B4', false);
   },
   methods: {
     nextAnswer() {
       switch (this.level) {
         case 1:
-          this.answer = this.randomNote(4, 4, false);
+          this.answer = this.randomNote('C4', 'B4', false);
           break;
         case 2:
-          this.answer = this.randomNote(4, 5, false);
+          this.answer = this.randomNote('C4', 'B5', false);
           break;
         case 3:
-          this.answer = this.randomNote(4, 5, true);
+          this.answer = this.randomNote('C4', 'B5', true);
           break;
         default:
           break;
@@ -121,14 +120,52 @@ export default {
         alert('땡!');
       }
     },
-    randomNote(minOctave, maxOctave, includeAccidentals = false) {
-      const octave =
-        minOctave + Math.round(Math.random() * (maxOctave - minOctave));
-      const candidates = !includeAccidentals
-        ? ['C', 'D', 'E', 'F', 'G', 'A', 'B']
-        : ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-      const note =
-        this.noteCandidates[Math.floor(Math.random() * candidates.length) - 1];
+    randomNote(minNote, maxNote, includeAccidentals = false) {
+      const minCode = this.noteToInt(minNote);
+      const maxCode = this.noteToInt(maxNote);
+      let randomCode =
+        minCode + Math.round(Math.random() * (maxCode - minCode));
+      let note = this.intToNote(randomCode);
+      if (!includeAccidentals && note.includes('#')) {
+        if (minCode === maxCode) {
+          throw new Error('범위 오류');
+        }
+        randomCode += randomCode < maxCode ? 1 : -1;
+        note = this.intToNote(randomCode);
+      }
+      return note;
+    },
+    noteToInt(expression) {
+      // A4 === 0
+      const [note, octave] = expression
+        // A-G로 시작, b 또는 #이 뒤따라올 수 있음,
+        // - 부호가 붙을 수 있음, 1개 이상의 숫자로 끝남
+        .match(/(^[A-G][b#]?)([-]?\d+)$/)
+        .slice(1, 3);
+      return (
+        { C: -9, D: -7, E: -5, F: -4, G: -2, A: 0, B: 2 }[note.charAt(0)] +
+        (note.charAt(1) === '#' ? 1 : note.charAt(1) === 'b' ? -1 : 0) +
+        (octave - 4) * 12
+      );
+    },
+    intToNote(intCode) {
+      // A4 === 0
+      const rem = ((intCode % 12) + 12) % 12;
+      const octave = Math.floor(intCode / 12) + (rem < 3 ? 4 : 5);
+      const note = [
+        'A',
+        'A#',
+        'B',
+        'C',
+        'C#',
+        'D',
+        'D#',
+        'E',
+        'F',
+        'F#',
+        'G',
+        'G#',
+      ][rem];
       return note + octave;
     },
   },

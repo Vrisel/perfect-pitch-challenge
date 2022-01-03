@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import * as Tone from 'tone';
 export default {
   props: {
     frequency: { type: Number, required: true },
@@ -12,32 +13,22 @@ export default {
   data() {
     return {
       disabled: false,
+      synth: undefined,
     };
+  },
+  beforeMount() {
+    this.synth = new Tone.Synth().toDestination();
+  },
+  destroyed() {
+    this.synth.dispose();
   },
   methods: {
     generateSound() {
       this.disabled = true;
-      const ac = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ac.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = this.frequency;
 
-      // 초기 볼륨 0
-      const gn = ac.createGain();
-      gn.gain.setValueAtTime(0, ac.currentTime);
-      osc.connect(gn);
-      gn.connect(ac.destination);
-
-      osc.start();
-      // fade in
-      gn.gain.linearRampToValueAtTime(0.5, ac.currentTime + 0.5);
-      gn.gain.setValueAtTime(0.5, ac.currentTime + 2);
-      // fade out
-      gn.gain.linearRampToValueAtTime(0.0001, ac.currentTime + 2.5);
+      this.synth.triggerAttackRelease(this.frequency, 2);
 
       setTimeout(() => {
-        gn.disconnect(ac.destination);
-        osc.disconnect(gn);
         this.disabled = false;
       }, 3000);
     },
