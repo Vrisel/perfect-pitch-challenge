@@ -13,7 +13,7 @@ export default function Challenge() {
 
   const [level, setLevel] = useState(1);
   const [step, setStep] = useState(1);
-  const [answer, setAnswer] = useState("A4");
+  const [answer, setAnswer] = useState(randomNote(4, 4, false));
 
   function nextAnswer() {
     switch (level) {
@@ -27,7 +27,8 @@ export default function Challenge() {
         setAnswer(randomNote(4, 5, true));
         break;
       default:
-        break;
+        alert("끝!");
+        return;
     }
   }
 
@@ -40,11 +41,11 @@ export default function Challenge() {
       } else {
         setStep(step + 1);
       }
+      nextAnswer();
     } else {
       alert("땡!");
     }
   }
-  useEffect(() => nextAnswer(), [step]);
 
   return (
     <Layout>
@@ -93,12 +94,12 @@ function getFrequency(note, pitch) {
   }
 
   let step = { C: -9, D: -7, E: -5, F: -4, G: -2, A: 0, B: 2 }[
-    note[0].toUpperCase()
+    note.charAt(0).toUpperCase()
   ];
   if (step == undefined) {
     throw new Error("입력 오류");
   }
-  step += note[1] === "#" ? 1 : note[1] === "b" ? -1 : 0;
+  step += note.charAt(1) === "#" ? 1 : note.charAt(1) === "b" ? -1 : 0;
 
   return pitch * Math.pow(2, step / 12) * (octave - 3);
 }
