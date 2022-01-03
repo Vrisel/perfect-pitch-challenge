@@ -1,3 +1,40 @@
+<template>
+  <div>
+    <h1 class="title">절대음감 챌린지</h1>
+    <v-card class="pa-3">
+      <v-form class="text-center" action="/challenge">
+        <div class="mb-3">
+          <label>
+            Pitch:
+            <input
+              v-model="pitch"
+              name="pitch"
+              type="number"
+              step="1"
+              class="mx-1 grey lighten-2 text-right"
+              style="width: 55px"
+            />
+            ㎐ A
+          </label>
+        </div>
+        <v-btn type="submit">시작하기</v-btn>
+      </v-form>
+    </v-card>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HomePage',
+  data() {
+    return {
+      pitch: 440,
+    }
+  },
+}
+</script>
+
+<style>
 .title a {
   color: #0070f3;
   text-decoration: none;
@@ -13,6 +50,7 @@
   margin: 20px;
   line-height: 1.15;
   font-size: 2rem;
+  font-weight: bolder;
 }
 
 .title,
@@ -79,3 +117,4 @@
     flex-direction: column;
   }
 }
+</style>
