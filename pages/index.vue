@@ -11,8 +11,10 @@
               name="pitch"
               type="number"
               step="1"
+              min="416"
+              max="466"
               class="mx-1 grey lighten-2 text-right"
-              style="width: 55px"
+              style="width: 55px; border: 1px solid #000 !important"
             />
             ㎐ A
           </label>
@@ -29,9 +31,9 @@ export default {
   data() {
     return {
       pitch: 440,
-    }
+    };
   },
-}
+};
 </script>
 
 <style>
