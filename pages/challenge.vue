@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import PlayButton from '~/components/PlayButton.vue';
 export default {
   name: 'ChallengePage',
@@ -31,34 +32,28 @@ export default {
   },
   data() {
     return {
-      level: 1,
-      step: 1,
+      /* level: 1,
+      step: 1, */
       answer: this.randomNote('C4', 'B4', false),
     };
   },
   computed: {
+    /* level() {
+      return this.$store.state.currentLevel;
+    },
+    step() {
+      return this.$store.state.currentStep;
+    }, */
+    ...mapState({
+      level: 'currentLevel',
+      step: 'currentStep',
+    }),
     frequency() {
-      const octave =
-        parseInt(this.answer.slice(this.answer.length - 2)) ||
-        parseInt(this.answer.slice(this.answer.length - 1));
-      if (octave < 1 || octave > 9) {
-        throw new Error('범위 초과');
-      }
-
-      let noteNumber = { C: -9, D: -7, E: -5, F: -4, G: -2, A: 0, B: 2 }[
-        this.answer.charAt(0).toUpperCase()
-      ];
-      if (noteNumber === undefined) {
+      try {
+        return this.pitch * Math.pow(2, this.noteToInt(this.answer) / 12);
+      } catch {
         throw new Error('입력 오류');
       }
-      noteNumber +=
-        this.answer.charAt(1) === '#'
-          ? 1
-          : this.answer.charAt(1) === 'b'
-          ? -1
-          : 0;
-
-      return this.pitch * Math.pow(2, noteNumber / 12) * (octave - 3);
     },
     noteCandidates() {
       return this.level > 2
@@ -66,8 +61,26 @@ export default {
         : ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     },
   },
-  watch: {
-    step() {
+  mounted() {
+    this.$store.commit('initialization', this.pitch);
+  },
+  methods: {
+    checkAnswer(note) {
+      if (note === this.answer.slice(0, this.answer.length - 1)) {
+        alert('정답!');
+        this.$store.dispatch('gotCorrectAnswer').then((finished) => {
+          if (finished) {
+            this.$router.push({ path: 'result', query: {} });
+          } else {
+            this.nextAnswer();
+          }
+        });
+      } else {
+        alert('땡!');
+        this.$store.commit('gotWrongAnswer');
+      }
+    },
+    nextAnswer() {
       switch (this.level) {
         case 1:
           this.answer = this.randomNote('C4', 'B4', false);
@@ -80,27 +93,6 @@ export default {
           break;
         default:
           alert('끝!');
-      }
-    },
-  },
-  methods: {
-    checkAnswer(note) {
-      if (note === this.answer.slice(0, this.answer.length - 1)) {
-        alert('정답!');
-        if (this.step >= 3) {
-          if (this.level >= 3) {
-            alert('끝!');
-            this.$router.push({ path: 'result', query: {} });
-          } else {
-            this.step = 1;
-            this.level += 1;
-          }
-        } else {
-          this.step += 1;
-        }
-        // this.nextAnswer();
-      } else {
-        alert('땡!');
       }
     },
     randomNote(minNote, maxNote, includeAccidentals = false) {
