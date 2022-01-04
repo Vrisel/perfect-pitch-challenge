@@ -55,12 +55,10 @@ const getters = {
     let result = 0;
     for (let i = 0; i < state.currentLevel - 1; i++) {
       result += ALLOT[i] * STEPS - state.wrongAnswers[i];
-      console.log(result);
     }
     result +=
       ALLOT[state.currentLevel - 1] * (state.currentStep - 1) -
         state.wrongAnswers[state.currentLevel - 1] || 0;
-    console.log(result);
     return result;
   },
 };
