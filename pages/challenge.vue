@@ -108,6 +108,7 @@ export default {
         if (this.step >= 3) {
           if (this.level >= 3) {
             alert('끝!');
+            this.$router.push({ path: 'result', query: {} });
           } else {
             this.step = 1;
             this.level += 1;
