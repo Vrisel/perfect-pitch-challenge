@@ -3,62 +3,48 @@
     <p>
       Level: {{ level }}
       <br />
-      Step: {{ step }}
+      Step: {{ `${step} / ${maxStep}` }}
       <br />
       Pitch: {{ pitch }}Hz
     </p>
     <PlayButton :frequency="frequency" />
-
-    <div>
-      <v-btn
-        v-for="note of noteCandidates"
-        :key="note"
-        @click="checkAnswer(note)"
-      >
-        {{ note }}
-      </v-btn>
-    </div>
+    <AnswerButtons
+      :include-accidentals="level > 2"
+      class="my-3"
+      @click="checkAnswer($event)"
+    />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import AnswerButtons from '~/components/AnswerButtons.vue';
 import PlayButton from '~/components/PlayButton.vue';
 export default {
   name: 'ChallengePage',
-  components: { PlayButton },
+  components: { PlayButton, AnswerButtons },
   props: {
     pitch: { type: Number, default: 440 },
   },
   data() {
     return {
-      /* level: 1,
-      step: 1, */
       answer: this.randomNote('C4', 'B4', false),
     };
   },
   computed: {
-    /* level() {
-      return this.$store.state.currentLevel;
-    },
-    step() {
-      return this.$store.state.currentStep;
-    }, */
     ...mapState({
       level: 'currentLevel',
       step: 'currentStep',
     }),
+    maxStep() {
+      return this.$store.state.steps;
+    },
     frequency() {
       try {
         return this.pitch * Math.pow(2, this.noteToInt(this.answer) / 12);
       } catch {
         throw new Error('입력 오류');
       }
-    },
-    noteCandidates() {
-      return this.level > 2
-        ? ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-        : ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
     },
   },
   mounted() {
