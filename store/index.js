@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 const ALLOT = [1, 2, 5];
 const MAX_LEVEL = ALLOT.length;
 const STEPS = 3;
@@ -6,7 +8,9 @@ const state = () => ({
   pitch: 440,
   currentLevel: 1,
   currentStep: 1,
-  wrongAnswers: [0, 0, 0],
+  wrongAnswers: [],
+  allot: ALLOT,
+  steps: STEPS,
 });
 
 const mutations = {
@@ -14,7 +18,9 @@ const mutations = {
     state.pitch = pitch;
     state.currentLevel = 1;
     state.currentStep = 1;
-    state.wrongAnswers = [0, 0, 0];
+    for (let i = 0; i < MAX_LEVEL; i++) {
+      state.wrongAnswers[i] = 0;
+    }
   },
   nextStep(state) {
     state.currentStep += 1;
@@ -24,7 +30,11 @@ const mutations = {
     state.currentStep = 1;
   },
   gotWrongAnswer(state) {
-    state.wrongAnswers[state.currentLevel - 1] += 1;
+    Vue.set(
+      state.wrongAnswers,
+      state.currentLevel - 1,
+      state.wrongAnswers[state.currentLevel - 1] + 1
+    );
   },
 };
 
@@ -43,9 +53,14 @@ const actions = {
 const getters = {
   currentScore(state) {
     let result = 0;
-    for (let i = 0; i < state.currentLevel; i++) {
-      result += ALLOT[i] * (state.currentStep - 1) - state.wrongAnswers[i];
+    for (let i = 0; i < state.currentLevel - 1; i++) {
+      result += ALLOT[i] * STEPS - state.wrongAnswers[i];
+      console.log(result);
     }
+    result +=
+      ALLOT[state.currentLevel - 1] * (state.currentStep - 1) -
+        state.wrongAnswers[state.currentLevel - 1] || 0;
+    console.log(result);
     return result;
   },
 };
