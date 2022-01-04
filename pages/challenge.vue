@@ -33,7 +33,7 @@ export default {
     return {
       level: 1,
       step: 1,
-      answer: '',
+      answer: this.randomNote('C4', 'B4', false),
     };
   },
   computed: {
@@ -83,25 +83,7 @@ export default {
       }
     },
   },
-  created() {
-    this.answer = this.randomNote('C4', 'B4', false);
-  },
   methods: {
-    nextAnswer() {
-      switch (this.level) {
-        case 1:
-          this.answer = this.randomNote('C4', 'B4', false);
-          break;
-        case 2:
-          this.answer = this.randomNote('C4', 'B5', false);
-          break;
-        case 3:
-          this.answer = this.randomNote('C4', 'B5', true);
-          break;
-        default:
-          break;
-      }
-    },
     checkAnswer(note) {
       if (note === this.answer.slice(0, this.answer.length - 1)) {
         alert('정답!');
