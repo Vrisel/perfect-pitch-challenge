@@ -45,6 +45,7 @@
       <v-main class="main">
         <Nuxt />
       </v-main>
+      <nuxt-link v-if="!isHome" to="/" class="backToHome">← 처음으로</nuxt-link>
     </v-container>
     <!-- <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
@@ -56,9 +57,17 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer> -->
-    <!-- <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer> -->
+    <footer class="footer">
+      <a href="https://vrisel.github.io/" target="_blank" rel="noreferrer">
+        <span>Made by <strong>VRISEL</strong></span>
+        <v-img
+          src="/vrisel.png"
+          alt="Vrisel Logo"
+          max-width="16"
+          max-height="16"
+        />
+      </a>
+    </footer>
   </v-app>
 </template>
 
@@ -67,7 +76,7 @@ export default {
   name: 'DefaultLayout',
   data() {
     return {
-      clipped: false,
+      /* clipped: false,
       drawer: false,
       fixed: false,
       items: [
@@ -85,59 +94,35 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
-    }
+      title: 'Vuetify.js', */
+    };
   },
-}
+  computed: {
+    isHome() {
+      return this.$route.name === 'index';
+    },
+  },
+};
 </script>
 
 <style>
 /* global */
-.container {
-  max-width: 36rem;
-  padding: 0 2rem;
-  margin: 3rem auto;
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
-
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+a {
+  color: inherit;
+  text-decoration: none;
 }
-
-.main {
-  /* min-height: 100vh; */
-  padding: 4rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+a:hover {
+  text-decoration: underline;
 }
-
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
-}
-
-.backToHome {
-  margin: 3rem 0 0;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
-
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
+* {
+  box-sizing: border-box;
 }
 
 /* layout */
@@ -146,13 +131,11 @@ export default {
   padding: 0 2rem;
   margin: 3rem auto;
 }
-
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 .main {
   /* min-height: 100vh; */
   padding: 4rem 0;
@@ -162,7 +145,6 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .footer {
   display: flex;
   flex: 1;
@@ -171,18 +153,15 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
-.backToHome {
-  margin: 3rem 0 0;
-}
-
 .footer a {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
 }
-
+.backToHome {
+  margin: 3rem 0 0;
+}
 .logo {
   height: 1em;
   margin-left: 0.5rem;
@@ -196,7 +175,6 @@ export default {
   letter-spacing: -0.05rem;
   margin: 1rem 0;
 }
-
 .headingXl {
   font-size: 2rem;
   line-height: 1.3;
@@ -204,40 +182,32 @@ export default {
   letter-spacing: -0.05rem;
   margin: 1rem 0;
 }
-
 .headingLg {
   font-size: 1.5rem;
   line-height: 1.4;
   margin: 1rem 0;
 }
-
 .headingMd {
   font-size: 1.2rem;
   line-height: 1.5;
 }
-
 .borderCircle {
   border-radius: 9999px;
 }
-
 .colorInherit {
   color: inherit;
 }
-
 .padding1px {
   padding-top: 1px;
 }
-
 .list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .listItem {
   margin: 0 0 1.25rem;
 }
-
 .lightText {
   color: #666;
 }
