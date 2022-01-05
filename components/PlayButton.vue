@@ -1,6 +1,7 @@
 <template>
   <v-btn type="button" :disabled="disabled" @click="generateSound">
     다시 듣기
+    <v-icon>mdi-volume-high</v-icon>
   </v-btn>
 </template>
 
