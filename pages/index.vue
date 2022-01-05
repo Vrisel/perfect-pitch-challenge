@@ -2,7 +2,7 @@
   <div>
     <h1 class="title">절대음감 챌린지</h1>
     <v-card class="pa-3">
-      <v-form class="text-center" action="/challenge">
+      <v-form class="text-center" @submit.prevent="startChallenge">
         <div class="mb-3">
           <label>
             Pitch:
@@ -32,6 +32,11 @@ export default {
     return {
       pitch: 440,
     };
+  },
+  methods: {
+    startChallenge() {
+      this.$router.push({ path: '/challenge', query: { ptich: this.pitch } });
+    },
   },
 };
 </script>

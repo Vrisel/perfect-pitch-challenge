@@ -61,7 +61,7 @@
       <a href="https://vrisel.github.io/" target="_blank" rel="noreferrer">
         <span>Made by <strong>VRISEL</strong></span>
         <v-img
-          src="/vrisel.png"
+          :src="require('../static/vrisel.png')"
           alt="Vrisel Logo"
           max-width="16"
           max-height="16"
