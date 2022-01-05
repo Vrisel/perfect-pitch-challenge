@@ -8,7 +8,12 @@
         틀린 개수: 총 {{ wrongAnswers }}개
       </p>
     </div>
-    <div>공유하기</div>
+    <div>
+      공유하기
+      <a target="_blank" :href="shareTwitter" title="트위터로 공유">
+        <v-icon large color="blue">mdi-twitter</v-icon>
+      </a>
+    </div>
   </v-container>
 </template>
 
@@ -21,12 +26,24 @@ export default {
     },
     maxScore() {
       return (
-        this.$store.state.allot.reduce((acc, curr) => acc + curr) *
+        this.$store.state.allot.reduce((acc, curr) => acc + curr, 0) *
         this.$store.state.steps
       );
     },
     wrongAnswers() {
-      return this.$store.state.wrongAnswers.reduce((acc, curr) => acc + curr);
+      return this.$store.state.wrongAnswers.reduce(
+        (acc, curr) => acc + curr,
+        0
+      );
+    },
+    shareUrl() {
+      return process.env.baseUrl + this.$route.fullPath;
+    },
+    shareTwitter() {
+      const shareText =
+        `[절대음감 챌린지] ${this.wrongAnswers}번 틀리고 ${this.score}점 획득!` +
+        '\n';
+      return `https://twitter.com/intent/tweet?text=${shareText}&url=${this.shareUrl}`;
     },
   },
 };
