@@ -1,138 +1,149 @@
 <template>
   <div>
-    <p>
-      Level: {{ level }}
-      <br />
-      Step: {{ `${step} / ${maxStep}` }}
-      <br />
-      Pitch: {{ pitch }}Hz
-    </p>
-    <PlayButton :frequency="frequency" />
-    <AnswerButtons
-      :include-accidentals="level > 2"
-      class="my-3"
-      @click="checkAnswer($event)"
+    <div v-if="!finished">
+      <h1>레벨 {{ currentLevel }}</h1>
+      <p class="level-description">
+        배점: {{ levels[currentLevel - 1].allot }}점
+        <br />
+        음 범위: {{ levels[currentLevel - 1].minNote }} ~
+        {{ levels[currentLevel - 1].maxNote }}
+        <br />
+        검은건반
+        {{ levels[currentLevel - 1].includeAccidentals ? '' : '비' }}포함
+      </p>
+      <p class="status">
+        Step: {{ `${currentStep} / ${levelSteps}` }}
+        <br />
+        Pitch: {{ pitch }}㎐ A
+        <PlayButton
+          :play-on-render="false"
+          button-text="들어보기"
+          :frequency="pitch"
+        />
+      </p>
+      <p class="score">
+        현재 점수: {{ `${currentScore} / ${maxScore}` }}점
+        <br />
+        틀린 개수: {{ wrongSum }}개
+      </p>
+      <div v-if="betweenLevel">
+        <v-btn x-large @click="betweenLevel = false">시작!</v-btn>
+      </div>
+      <ChallengeGame
+        v-show="!betweenLevel"
+        v-bind="levels[currentLevel - 1]"
+        @answered="gotAnswer($event)"
+      />
+    </div>
+    <ChallengeResult
+      v-else
+      :pitch="pitch"
+      :score="currentScore"
+      :max-score="maxScore"
+      :wrong-sum="wrongSum"
     />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import AnswerButtons from '~/components/AnswerButtons.vue';
+import Vue from 'vue';
 import PlayButton from '~/components/PlayButton.vue';
+import ChallengeGame from '~/components/ChallengeGame.vue';
+import ChallengeResult from '~/components/ChallengeResult.vue';
 export default {
   name: 'ChallengePage',
-  components: { PlayButton, AnswerButtons },
+  components: { PlayButton, ChallengeGame, ChallengeResult },
   props: {
     pitch: { type: Number, default: 440 },
   },
   data() {
     return {
-      answer: this.randomNote('C4', 'B4', false),
+      currentLevel: 1,
+      currentStep: 1,
+      wrongAnswers: [],
+      betweenLevel: true,
+      finished: false,
+      levelSteps: 3,
+      levels: [
+        {
+          allot: 1,
+          minNote: 'C4',
+          maxNote: 'B4',
+          includeAccidentals: false,
+        },
+        {
+          allot: 2,
+          minNote: 'C4',
+          maxNote: 'B5',
+          includeAccidentals: false,
+        },
+        {
+          allot: 5,
+          minNote: 'C4',
+          maxNote: 'B5',
+          includeAccidentals: true,
+        },
+      ],
     };
   },
   head() {
     return {
-      title: `현재 점수: ${this.$store.getters.currentScore}점`,
+      title: `현재 점수: ${this.currentScore}점`,
     };
   },
   computed: {
-    ...mapState({
-      level: 'currentLevel',
-      step: 'currentStep',
-    }),
-    maxStep() {
-      return this.$store.state.steps;
+    maxLevel() {
+      return this.levels.length;
     },
-    frequency() {
-      try {
-        return this.pitch * Math.pow(2, this.noteToInt(this.answer) / 12);
-      } catch {
-        throw new Error('입력 오류');
+    allots() {
+      return this.levels.map((level) => level.allot);
+    },
+    maxScore() {
+      let result = 0;
+      for (let i = 0; i < this.currentLevel - 1; i++) {
+        result += this.allots[i] * this.levelSteps;
       }
+      result +=
+        this.allots[this.currentLevel - 1] * (this.currentStep - 1) || 0;
+      return result;
+    },
+    currentScore() {
+      return this.maxScore - this.wrongSum;
+    },
+    wrongSum() {
+      return this.wrongAnswers.reduce((acc, curr) => acc + curr, 0);
     },
   },
-  mounted() {
-    this.$store.commit('initialization', this.pitch);
+  created() {
+    this.wrongAnswers = Array.from({ length: this.maxLevel }, () => 0);
   },
   methods: {
-    checkAnswer(note) {
-      if (note === this.answer.slice(0, this.answer.length - 1)) {
-        alert('정답!');
-        this.$store.dispatch('gotCorrectAnswer').then((finished) => {
-          if (finished) {
-            this.$router.push({ path: 'result', query: {} });
+    gotAnswer(isCorrect) {
+      if (isCorrect) {
+        if (this.currentStep >= this.levelSteps) {
+          this.currentStep = 1;
+          this.currentLevel += 1;
+          if (this.currentLevel <= this.maxLevel) {
+            this.showLevelDivider();
           } else {
-            this.nextAnswer();
+            this.showResult();
           }
-        });
-      } else {
-        alert('땡!');
-        this.$store.commit('gotWrongAnswer');
-      }
-    },
-    nextAnswer() {
-      switch (this.level) {
-        case 1:
-          this.answer = this.randomNote('C4', 'B4', false);
-          break;
-        case 2:
-          this.answer = this.randomNote('C4', 'B5', false);
-          break;
-        case 3:
-          this.answer = this.randomNote('C4', 'B5', true);
-          break;
-        default:
-          alert('끝!');
-      }
-    },
-    randomNote(minNote, maxNote, includeAccidentals = false) {
-      const minCode = this.noteToInt(minNote);
-      const maxCode = this.noteToInt(maxNote);
-      let randomCode =
-        minCode + Math.round(Math.random() * (maxCode - minCode));
-      let note = this.intToNote(randomCode);
-      if (!includeAccidentals && note.includes('#')) {
-        if (minCode === maxCode) {
-          throw new Error('범위 오류');
+        } else {
+          this.currentStep += 1;
         }
-        randomCode += randomCode < maxCode ? 1 : -1;
-        note = this.intToNote(randomCode);
+      } else {
+        Vue.set(
+          this.wrongAnswers,
+          this.currentLevel - 1,
+          this.wrongAnswers[this.currentLevel - 1] + 1
+        );
       }
-      return note;
     },
-    noteToInt(expression) {
-      // A4 === 0
-      const [note, octave] = expression
-        // A-G로 시작, b 또는 #이 뒤따라올 수 있음,
-        // - 부호가 붙을 수 있음, 1개 이상의 숫자로 끝남
-        .match(/(^[A-G][b#]?)([-]?\d+)$/)
-        .slice(1, 3);
-      return (
-        { C: -9, D: -7, E: -5, F: -4, G: -2, A: 0, B: 2 }[note.charAt(0)] +
-        (note.charAt(1) === '#' ? 1 : note.charAt(1) === 'b' ? -1 : 0) +
-        (octave - 4) * 12
-      );
+    showLevelDivider() {
+      this.betweenLevel = true;
     },
-    intToNote(intCode) {
-      // A4 === 0
-      const rem = ((intCode % 12) + 12) % 12;
-      const octave = Math.floor(intCode / 12) + (rem < 3 ? 4 : 5);
-      const note = [
-        'A',
-        'A#',
-        'B',
-        'C',
-        'C#',
-        'D',
-        'D#',
-        'E',
-        'F',
-        'F#',
-        'G',
-        'G#',
-      ][rem];
-      return note + octave;
+    showResult() {
+      this.finished = true;
     },
   },
 };
