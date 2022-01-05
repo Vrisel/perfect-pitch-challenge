@@ -63,7 +63,7 @@ export default {
       wrongAnswers: [],
       betweenLevel: true,
       finished: false,
-      levelSteps: 3,
+      levelSteps: process.env.NODE_ENV === 'production' ? 10 : 3,
       levels: [
         {
           allot: 1,

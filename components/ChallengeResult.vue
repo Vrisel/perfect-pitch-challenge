@@ -27,11 +27,11 @@ export default {
   },
   computed: {
     shareUrl() {
-      return process.env.baseUrl;
+      return 'https://vrisel.github.io/perfect-pitch-challenge';
     },
     shareTwitter() {
       const shareText =
-        `[🎹절대음감 챌린지] ${this.pitch}㎐ 피치에서 ${this.wrongSum}번 틀리고 ${this.score}점 획득!\n` +
+        `[🎹절대음감 챌린지(베타)] ${this.pitch}㎐ 피치에서 ${this.wrongSum}번 틀리고 ${this.score}점 획득!\n` +
         '도전해보기⏩';
       return (
         `https://twitter.com/intent/tweet` +
