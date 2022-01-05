@@ -3,14 +3,21 @@ import colors from 'vuetify/es5/util/colors';
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+  router: {
+    base:
+      process.env.NODE_ENV === 'production' ? '/perfect-pitch-challenge/' : '',
+  },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     htmlAttrs: {
       lang: 'ko',
     },
-    titleTemplate: '%s - perfect-pitch-challenge',
-    title: '절대음감 챌린지',
+    titleTemplate(chunk) {
+      return chunk
+        ? `${chunk} - ${process.env.globalTitle}`
+        : process.env.globalTitle;
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -23,6 +30,11 @@ export default {
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
+
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    globalTitle: '절대음감 챌린지',
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

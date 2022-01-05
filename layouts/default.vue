@@ -97,6 +97,11 @@ export default {
       title: 'Vuetify.js', */
     };
   },
+  head() {
+    return {
+      title: '',
+    };
+  },
   computed: {
     isHome() {
       return this.$route.name === 'index';

@@ -31,6 +31,11 @@ export default {
       answer: this.randomNote('C4', 'B4', false),
     };
   },
+  head() {
+    return {
+      title: `현재 점수: ${this.$store.getters.currentScore}점`,
+    };
+  },
   computed: {
     ...mapState({
       level: 'currentLevel',
