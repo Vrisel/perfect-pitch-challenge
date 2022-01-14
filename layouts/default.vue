@@ -58,10 +58,10 @@
       </v-list>
     </v-navigation-drawer> -->
     <footer class="footer">
-      <a href="https://vrisel.github.io/" target="_blank" rel="noreferrer">
+      <a href="https://vrisel.vercel.app/" target="_blank" rel="noreferrer">
         <span>Made by <strong>VRISEL</strong></span>
         <v-img
-          :src="require('../static/vrisel.png')"
+          src="/vrisel.png"
           alt="Vrisel Logo"
           max-width="16"
           max-height="16"
