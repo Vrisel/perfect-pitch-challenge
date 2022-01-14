@@ -15,11 +15,6 @@
         Step: {{ `${currentStep} / ${levelSteps}` }}
         <br />
         Pitch: {{ pitch }}㎐ A
-        <PlayButton
-          :play-on-render="false"
-          button-text="들어보기"
-          :frequency="pitch"
-        />
       </p>
       <p class="score">
         현재 점수: {{ `${currentScore} / ${maxScore}` }}점
@@ -47,12 +42,11 @@
 
 <script>
 import Vue from 'vue';
-import PlayButton from '~/components/PlayButton.vue';
 import ChallengeGame from '~/components/ChallengeGame.vue';
 import ChallengeResult from '~/components/ChallengeResult.vue';
 export default {
   name: 'ChallengePage',
-  components: { PlayButton, ChallengeGame, ChallengeResult },
+  components: { ChallengeGame, ChallengeResult },
   props: {
     pitch: { type: Number, default: 440 },
   },

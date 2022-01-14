@@ -3,8 +3,8 @@
     <h1 class="title">절대음감 챌린지</h1>
     <v-card class="pa-3">
       <v-form class="text-center" @submit.prevent="startChallenge">
-        <div class="mb-3">
-          <label>
+        <div class="d-flex flex-column">
+          <label class="mb-2">
             Pitch:
             <input
               v-model="pitch"
@@ -18,16 +18,24 @@
             />
             ㎐ A
           </label>
+          <PlayButton
+            :play-on-render="false"
+            button-text="들어보기"
+            :frequency="pitch"
+            class="mb-2"
+          />
+          <v-btn type="submit" color="primary">시작하기</v-btn>
         </div>
-        <v-btn type="submit">시작하기</v-btn>
       </v-form>
     </v-card>
   </div>
 </template>
 
 <script>
+import PlayButton from '~/components/PlayButton.vue';
 export default {
   name: 'HomePage',
+  components: { PlayButton },
   data() {
     return {
       pitch: 440,
