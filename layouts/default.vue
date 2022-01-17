@@ -4,7 +4,7 @@
       class="flex-auto px-8 py-16 d-flex flex-column justify-space-between"
     >
       <Nuxt class="align-self-center" />
-      <v-btn v-if="!isHome" to="/" class="mt-6 align-self-end">
+      <v-btn v-if="!isHome" class="mt-6 align-self-end" @click="goHome">
         ← 처음으로
       </v-btn>
     </v-container>
@@ -39,6 +39,13 @@ export default {
   computed: {
     isHome() {
       return this.$route.name === 'index';
+    },
+  },
+  methods: {
+    goHome() {
+      if (confirm('진행상황이 초기화됩니다.\n처음으로 돌아가시겠습니까?')) {
+        this.$router.push('/');
+      }
     },
   },
 };
