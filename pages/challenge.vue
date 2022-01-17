@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <div v-if="!finished">
       <h1>레벨 {{ currentLevel }}</h1>
       <p class="level-description">
@@ -37,7 +37,7 @@
       :max-score="maxScore"
       :wrong-sum="wrongSum"
     />
-  </div>
+  </main>
 </template>
 
 <script>

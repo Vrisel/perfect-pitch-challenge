@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main class="d-flex flex-column align-center">
     <h1 class="title">절대음감 챌린지</h1>
     <v-card class="pa-3">
       <v-form class="text-center" @submit.prevent="startChallenge">
@@ -28,7 +28,7 @@
         </div>
       </v-form>
     </v-card>
-  </div>
+  </main>
 </template>
 
 <script>
