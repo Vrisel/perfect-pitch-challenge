@@ -2,26 +2,53 @@
   <main class="d-flex flex-column justify-center">
     <template v-if="!finished">
       <div class="d-flex justify-center align-center mb-4">
-        <h1 class="mr-3 border pa-3">레벨 {{ currentLevel }}</h1>
-        <p class="mb-0">
-          배점: {{ levels[currentLevel - 1].allot }}점
-          <br />
-          음 범위: {{ levels[currentLevel - 1].minNote }} ~
-          {{ levels[currentLevel - 1].maxNote }}
-          <br />
-          검은건반
-          {{ levels[currentLevel - 1].includeAccidentals ? '' : '비' }}포함
-        </p>
+        <h1 class="mr-3 border pa-3">
+          레벨 {{ `${currentLevel}/${allots.length}` }}
+        </h1>
+        <div class="mb-0">
+          <p class="mb-0">배점: {{ levels[currentLevel - 1].allot }}점</p>
+          <p class="mb-0">
+            음 범위:
+            <span
+              :class="{
+                'red--text': levels[currentLevel - 1].minNote === 'C3',
+              }"
+            >
+              {{ levels[currentLevel - 1].minNote }}
+            </span>
+            ~
+            <span
+              :class="{
+                'red--text': levels[currentLevel - 1].maxNote === 'B5',
+              }"
+            >
+              {{ levels[currentLevel - 1].maxNote }}
+            </span>
+          </p>
+          <p
+            class="mb-0"
+            :class="{
+              'red--text': levels[currentLevel - 1].includeAccidentals,
+            }"
+          >
+            검은건반
+            {{ levels[currentLevel - 1].includeAccidentals ? '' : '비' }}포함
+          </p>
+        </div>
       </div>
       <p class="mb-4 text-center">
         현재 점수: {{ `${currentScore} / ${maxScore}` }}점
         <br />
         틀린 개수: {{ wrongSum }}개
       </p>
-      <template v-if="betweenLevel">
+
+      <div v-if="betweenLevel">
+        <p class="text-center">
+          <strong>레벨 당 {{ levelSteps }}문제가 출제됩니다.</strong>
+        </p>
         <v-btn x-large @click="betweenLevel = false">시작!</v-btn>
-      </template>
-      <div v-if="!betweenLevel">
+      </div>
+      <div v-else>
         <p class="float-left mb-0">
           Step: {{ `${currentStep} / ${levelSteps}` }}
           <br />
@@ -74,12 +101,30 @@ export default {
         {
           allot: 2,
           minNote: 'C4',
+          maxNote: 'B4',
+          includeAccidentals: true,
+        },
+        {
+          allot: 3,
+          minNote: 'C4',
           maxNote: 'B5',
           includeAccidentals: false,
         },
         {
-          allot: 5,
+          allot: 4,
           minNote: 'C4',
+          maxNote: 'B5',
+          includeAccidentals: true,
+        },
+        {
+          allot: 5,
+          minNote: 'C3',
+          maxNote: 'B5',
+          includeAccidentals: false,
+        },
+        {
+          allot: 6,
+          minNote: 'C3',
           maxNote: 'B5',
           includeAccidentals: true,
         },
