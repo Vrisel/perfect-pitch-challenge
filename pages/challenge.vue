@@ -21,14 +21,13 @@
       <template v-if="betweenLevel">
         <v-btn x-large @click="betweenLevel = false">시작!</v-btn>
       </template>
-      <div v-show="!betweenLevel" class="mb-4">
+      <div v-if="!betweenLevel">
         <p class="float-left mb-0">
           Step: {{ `${currentStep} / ${levelSteps}` }}
           <br />
           Pitch: {{ pitch }}㎐ A
         </p>
         <ChallengeGame
-          v-show="!betweenLevel"
           v-bind="levels[currentLevel - 1]"
           @answered="gotAnswer($event)"
         />

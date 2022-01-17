@@ -2,8 +2,9 @@
   <div>
     <PlayButton
       :play-on-render="true"
-      button-text="다시 듣기"
       :frequency="frequency"
+      :step="step"
+      button-text="다시 듣기"
       class="float-right my-2"
     />
     <div class="clearfix mb-4" />
@@ -30,6 +31,7 @@ export default {
   },
   data() {
     return {
+      step: 1,
       answer: this.randomNote(
         this.minNote,
         this.maxNote,
@@ -48,6 +50,7 @@ export default {
         alert('정답!');
         this.$emit('answered', true);
         this.nextAnswer();
+        this.step += 1;
       } else {
         alert('땡!');
         this.$emit('answered', false);

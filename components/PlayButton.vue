@@ -14,6 +14,7 @@ export default {
     frequency: { type: Number, required: true },
     buttonText: { type: String, default: '다시 듣기' },
     playOnRender: { type: Boolean, default: true },
+    step: { type: Number, default: 0 },
   },
   data() {
     return {
@@ -21,24 +22,28 @@ export default {
       synth: undefined,
     };
   },
-  beforeMount() {
-    this.synth = new Tone.Synth().toDestination();
+  watch: {
+    step() {
+      if (this.playOnRender) {
+        this.generateSound();
+      }
+    },
   },
-  /* // 제대로 작동을 안 함.. 
-    mounted() {
-    if (this.playOnRender) {
-      setTimeout(() => this.generateSound(), 500);
-    }
-  }, */
+  mounted() {
+    this.$nextTick(() => {
+      this.synth = new Tone.Synth().toDestination();
+      if (this.playOnRender) {
+        this.generateSound();
+      }
+    });
+  },
   destroyed() {
     this.synth.dispose();
   },
   methods: {
     generateSound() {
       this.disabled = true;
-
       this.synth.triggerAttackRelease(this.frequency, 2);
-
       setTimeout(() => {
         this.disabled = false;
       }, 3000);
