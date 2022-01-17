@@ -31,7 +31,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      this.synth = new Tone.Synth().toDestination();
+      this.synth = new Tone.Synth({ volume: -6 }).toDestination();
       if (this.playOnRender) {
         this.generateSound();
       }
