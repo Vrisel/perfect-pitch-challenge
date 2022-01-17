@@ -38,7 +38,7 @@ export default {
         content:
           'https://vrisel.github.io/perfect-pitch-challenge/og220117.png',
       },
-      { name: 'og:site_name', content: '브리셀' },
+      /* { name: 'og:site_name', content: 'vrisel.github.io' }, */
       { name: 'og:title', content: process.env.globalTitle },
       { name: 'og:description', content: '절대음감에 도전해보자!' },
 
