@@ -68,6 +68,16 @@
       :max-score="maxScore"
       :wrong-sum="wrongSum"
     />
+
+    <v-snackbar
+      v-model="snackbar"
+      timeout="2000"
+      bottom
+      :color="isCorrect ? 'green' : 'red'"
+      content-class="text-center"
+    >
+      {{ isCorrect ? '정답!' : '다시 생각해보세요.' }}
+    </v-snackbar>
   </main>
 </template>
 
@@ -90,6 +100,8 @@ export default {
       wrongAnswers: [],
       betweenLevel: true,
       finished: false,
+      snackbar: false,
+      isCorrect: false,
       levelSteps: process.env.NODE_ENV === 'production' ? 10 : 3,
       levels: [
         {
@@ -165,6 +177,9 @@ export default {
   methods: {
     gotAnswer(isCorrect) {
       if (isCorrect) {
+        this.snackbar = false;
+        this.isCorrect = true;
+        this.snackbar = true;
         if (this.currentStep >= this.levelSteps) {
           this.currentStep = 1;
           this.currentLevel += 1;
@@ -177,6 +192,9 @@ export default {
           this.currentStep += 1;
         }
       } else {
+        this.snackbar = false;
+        this.isCorrect = false;
+        this.snackbar = true;
         Vue.set(
           this.wrongAnswers,
           this.currentLevel - 1,

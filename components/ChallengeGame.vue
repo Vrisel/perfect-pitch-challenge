@@ -47,12 +47,10 @@ export default {
   methods: {
     checkAnswer(note) {
       if (note === this.answer.slice(0, this.answer.length - 1)) {
-        alert('정답!');
         this.$emit('answered', true);
         this.nextAnswer();
         this.step += 1;
       } else {
-        alert('땡!');
         this.$emit('answered', false);
       }
     },
