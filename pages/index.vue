@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     startChallenge() {
-      this.$router.push({ path: '/challenge', query: { ptich: this.pitch } });
+      this.$router.push({ path: '/challenge', query: { pitch: this.pitch } });
     },
   },
 };

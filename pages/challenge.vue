@@ -29,6 +29,7 @@
         </p>
         <ChallengeGame
           v-bind="levels[currentLevel - 1]"
+          :pitch="pitch"
           @answered="gotAnswer($event)"
         />
       </div>
@@ -50,8 +51,10 @@ import ChallengeResult from '~/components/ChallengeResult.vue';
 export default {
   name: 'ChallengePage',
   components: { ChallengeGame, ChallengeResult },
-  props: {
-    pitch: { type: Number, default: 440 },
+  asyncData({ query }) {
+    return {
+      pitch: parseInt(query.pitch) || 440,
+    };
   },
   data() {
     return {
