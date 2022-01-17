@@ -42,12 +42,12 @@
         틀린 개수: {{ wrongSum }}개
       </p>
 
-      <div v-if="betweenLevel">
+      <template v-if="betweenLevel">
         <p class="text-center">
           <strong>레벨 당 {{ levelSteps }}문제가 출제됩니다.</strong>
         </p>
         <v-btn x-large @click="betweenLevel = false">시작!</v-btn>
-      </div>
+      </template>
       <div v-else>
         <p class="float-left mb-0">
           Step: {{ `${currentStep} / ${levelSteps}` }}
