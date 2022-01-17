@@ -63,6 +63,14 @@ a:not(.v-btn):hover {
 .flex-auto {
   flex: auto;
 }
+.clearfix::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+.border {
+  border: 1px solid #eaeaea;
+}
 .border-top {
   border-top: 1px solid #eaeaea;
 }

@@ -1,35 +1,39 @@
 <template>
-  <main>
-    <div v-if="!finished">
-      <h1>레벨 {{ currentLevel }}</h1>
-      <p class="level-description">
-        배점: {{ levels[currentLevel - 1].allot }}점
-        <br />
-        음 범위: {{ levels[currentLevel - 1].minNote }} ~
-        {{ levels[currentLevel - 1].maxNote }}
-        <br />
-        검은건반
-        {{ levels[currentLevel - 1].includeAccidentals ? '' : '비' }}포함
-      </p>
-      <p class="status">
-        Step: {{ `${currentStep} / ${levelSteps}` }}
-        <br />
-        Pitch: {{ pitch }}㎐ A
-      </p>
-      <p class="score">
+  <main class="d-flex flex-column justify-center">
+    <template v-if="!finished">
+      <div class="d-flex justify-center align-center mb-4">
+        <h1 class="mr-3 border pa-3">레벨 {{ currentLevel }}</h1>
+        <p class="mb-0">
+          배점: {{ levels[currentLevel - 1].allot }}점
+          <br />
+          음 범위: {{ levels[currentLevel - 1].minNote }} ~
+          {{ levels[currentLevel - 1].maxNote }}
+          <br />
+          검은건반
+          {{ levels[currentLevel - 1].includeAccidentals ? '' : '비' }}포함
+        </p>
+      </div>
+      <p class="mb-4 text-center">
         현재 점수: {{ `${currentScore} / ${maxScore}` }}점
         <br />
         틀린 개수: {{ wrongSum }}개
       </p>
-      <div v-if="betweenLevel">
+      <template v-if="betweenLevel">
         <v-btn x-large @click="betweenLevel = false">시작!</v-btn>
+      </template>
+      <div v-show="!betweenLevel" class="mb-4">
+        <p class="float-left mb-0">
+          Step: {{ `${currentStep} / ${levelSteps}` }}
+          <br />
+          Pitch: {{ pitch }}㎐ A
+        </p>
+        <ChallengeGame
+          v-show="!betweenLevel"
+          v-bind="levels[currentLevel - 1]"
+          @answered="gotAnswer($event)"
+        />
       </div>
-      <ChallengeGame
-        v-show="!betweenLevel"
-        v-bind="levels[currentLevel - 1]"
-        @answered="gotAnswer($event)"
-      />
-    </div>
+    </template>
     <ChallengeResult
       v-else
       :pitch="pitch"

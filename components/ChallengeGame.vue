@@ -4,7 +4,9 @@
       :play-on-render="true"
       button-text="다시 듣기"
       :frequency="frequency"
+      class="float-right my-2"
     />
+    <div class="clearfix mb-4" />
     <AnswerButtons
       :include-accidentals="includeAccidentals"
       class="my-3"
@@ -23,6 +25,8 @@ export default {
     minNote: { type: String, required: true },
     maxNote: { type: String, required: true },
     includeAccidentals: { type: Boolean, required: true },
+    // eslint-disable-next-line vue/require-default-prop
+    allot: Number, // DOM에 남지 않도록 처리
   },
   data() {
     return {
