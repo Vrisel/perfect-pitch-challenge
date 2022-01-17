@@ -27,7 +27,33 @@ export default {
         content: '절대음감에 도전해보자!',
       },
       { name: 'format-detection', content: 'telephone=no' },
-      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'og:type', content: 'website' },
+      { name: 'og:locale', content: 'ko_KR' },
+      {
+        name: 'og:url',
+        content: 'https://vrisel.github.io/perfect-pitch-challenge',
+      },
+      {
+        name: 'og:image',
+        content:
+          'https://vrisel.github.io/perfect-pitch-challenge/og220117.png',
+      },
+      { name: 'og:site_name', content: '브리셀' },
+      { name: 'og:title', content: process.env.globalTitle },
+      { name: 'og:description', content: '절대음감에 도전해보자!' },
+
+      /* { name: 'twitter:card', content: 'summary_large_image' },
+      {
+        name: 'twitter:url',
+        content: 'https://vrisel.github.io/perfect-pitch-challenge/',
+      },
+      {
+        name: 'twitter:image',
+        content:
+          'https://vrisel.github.io/perfect-pitch-challenge/og220117.png',
+      },
+      { name: 'twitter:title', content: '절대음감 챌린지' },
+      { name: 'twitter:description', content: '절대음감에 도전해보자!' }, */
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
