@@ -59,11 +59,16 @@ export default {
       }
     },
     nextAnswer() {
-      this.answer = this.randomNote(
-        this.minNote,
-        this.maxNote,
-        this.includeAccidentals
-      );
+      let randomAnswer;
+      while (true) {
+        randomAnswer = this.randomNote(
+          this.minNote,
+          this.maxNote,
+          this.includeAccidentals
+        );
+        if (this.answer !== randomAnswer) break;
+      }
+      this.answer = randomAnswer;
     },
     randomNote(minNote, maxNote, includeAccidentals = false) {
       const minCode = this.noteToInt(minNote);
