@@ -100,6 +100,7 @@ export default {
     intToNote(intCode) {
       // A4 === 0
       const rem = ((intCode % 12) + 12) % 12;
+      // ↓ A,A#,B(0,1,2)는 옥타브가 다름
       const octave = Math.floor(intCode / 12) + (rem < 3 ? 4 : 5);
       const note = [
         'A',
