@@ -43,7 +43,7 @@ export default {
 .key {
   text-transform: none !important;
   min-width: 0 !important;
-  align-items: end !important;
+  align-items: flex-end !important;
 }
 .white-key {
   width: 47px !important;
