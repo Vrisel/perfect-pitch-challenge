@@ -5,7 +5,7 @@
       :key="note"
       class="key"
       :class="note.includes('#') ? 'black-key' : 'white-key'"
-      :disabled="note.includes('#') && !includeAccidentals"
+      :disabled="isDisabled[note]"
       @click="$emit('click', note)"
     >
       {{ note }}
@@ -17,6 +17,12 @@
 export default {
   props: {
     includeAccidentals: { type: Boolean, default: false },
+    disabled: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
   },
   data() {
     return {
@@ -35,6 +41,16 @@ export default {
         'B',
       ],
     };
+  },
+  computed: {
+    isDisabled() {
+      return this.noteCandidates.reduce((acc, curr) => {
+        acc[curr] =
+          (!this.includeAccidentals && curr.includes('#')) ||
+          this.disabled.includes(curr);
+        return acc;
+      }, {});
+    },
   },
 };
 </script>

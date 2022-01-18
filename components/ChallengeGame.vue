@@ -10,6 +10,7 @@
     <div class="clearfix mb-4" />
     <AnswerButtons
       :include-accidentals="includeAccidentals"
+      :disabled="disabled"
       class="my-3"
       @click="checkAnswer($event)"
     />
@@ -37,6 +38,7 @@ export default {
         this.maxNote,
         this.includeAccidentals
       ),
+      disabled: [],
     };
   },
   computed: {
@@ -50,7 +52,9 @@ export default {
         this.$emit('answered', true);
         this.nextAnswer();
         this.step += 1;
+        this.disabled = [];
       } else {
+        this.$set(this.disabled, this.disabled.length, note);
         this.$emit('answered', false);
       }
     },
