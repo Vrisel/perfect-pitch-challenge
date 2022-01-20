@@ -31,18 +31,11 @@
       :wrong-sum="wrongAnswers"
     />
 
-    <v-snackbar
-      v-model="snackbar"
-      timeout="2000"
-      bottom
-      multi-line
-      :color="isCorrect ? 'success' : 'error'"
-      content-class="text-center"
-    >
-      {{
-        isCorrect ? '정답😆' : `아까워요😢\n(남은 기회 ${3 - wrongAnswers}번)`
-      }}
-    </v-snackbar>
+    <AnswerAlert
+      v-model="alertActive"
+      :wrong-answers="wrongAnswers"
+      :is-correct="isCorrect"
+    />
   </main>
 </template>
 
@@ -50,9 +43,10 @@
 import ChallengeStatus from '~/components/ChallengeStatus.vue';
 import ChallengeGame from '~/components/ChallengeGame.vue';
 import ChallengeResult from '~/components/ChallengeResult.vue';
+import AnswerAlert from '~/components/AnswerAlert.vue';
 export default {
   name: 'ChallengeSurvival',
-  components: { ChallengeStatus, ChallengeGame, ChallengeResult },
+  components: { ChallengeStatus, ChallengeGame, ChallengeResult, AnswerAlert },
   asyncData({ query }) {
     return {
       pitch: parseInt(query.pitch) || 440,
@@ -64,7 +58,7 @@ export default {
       wrongAnswers: 0,
       beforeLevel: true,
       finished: false,
-      snackbar: false,
+      alertActive: false,
       isCorrect: false,
       level: {
         allot: 1,
@@ -81,19 +75,19 @@ export default {
   },
   methods: {
     gotAnswer(isCorrect) {
-      if (isCorrect) {
-        this.snackbar = false;
-        this.isCorrect = true;
-        this.snackbar = true;
-
-        this.currentScore += 1;
-      } else {
-        this.snackbar = false;
-        this.isCorrect = false;
-        this.snackbar = true;
-        this.wrongAnswers += 1;
-        if (this.wrongAnswers >= 3) this.showResult();
-      }
+      this.alertActive = false;
+      setTimeout(() => {
+        if (isCorrect) {
+          this.isCorrect = true;
+          this.alertActive = true;
+          this.currentScore += 1;
+        } else {
+          this.isCorrect = false;
+          this.alertActive = true;
+          this.wrongAnswers += 1;
+          if (this.wrongAnswers >= 3) this.showResult();
+        }
+      }, 1);
     },
     showResult() {
       this.finished = true;

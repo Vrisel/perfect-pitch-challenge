@@ -39,15 +39,7 @@
       :wrong-sum="wrongSum"
     />
 
-    <v-snackbar
-      v-model="snackbar"
-      timeout="2000"
-      bottom
-      :color="isCorrect ? 'success' : 'error'"
-      content-class="text-center"
-    >
-      {{ isCorrect ? '정답😆' : '아까워요😢' }}
-    </v-snackbar>
+    <AnswerAlert v-model="alertActive" :is-correct="isCorrect" />
   </main>
 </template>
 
@@ -70,7 +62,7 @@ export default {
       wrongAnswers: [],
       betweenLevel: true,
       finished: false,
-      snackbar: false,
+      alertActive: false,
       isCorrect: false,
       levelSteps: process.env.NODE_ENV === 'production' ? 10 : 3,
       levels: [
@@ -146,31 +138,32 @@ export default {
   },
   methods: {
     gotAnswer(isCorrect) {
-      if (isCorrect) {
-        this.snackbar = false;
-        this.isCorrect = true;
-        this.snackbar = true;
-        if (this.currentStep >= this.levelSteps) {
-          this.currentStep = 1;
-          this.currentLevel += 1;
-          if (this.currentLevel <= this.maxLevel) {
-            this.showLevelDivider();
+      this.alertActive = false;
+      setTimeout(() => {
+        if (isCorrect) {
+          this.isCorrect = true;
+          this.alertActive = true;
+          if (this.currentStep >= this.levelSteps) {
+            this.currentStep = 1;
+            this.currentLevel += 1;
+            if (this.currentLevel <= this.maxLevel) {
+              this.showLevelDivider();
+            } else {
+              this.showResult();
+            }
           } else {
-            this.showResult();
+            this.currentStep += 1;
           }
         } else {
-          this.currentStep += 1;
+          this.isCorrect = false;
+          this.alertActive = true;
+          Vue.set(
+            this.wrongAnswers,
+            this.currentLevel - 1,
+            this.wrongAnswers[this.currentLevel - 1] + 1
+          );
         }
-      } else {
-        this.snackbar = false;
-        this.isCorrect = false;
-        this.snackbar = true;
-        Vue.set(
-          this.wrongAnswers,
-          this.currentLevel - 1,
-          this.wrongAnswers[this.currentLevel - 1] + 1
-        );
-      }
+      }, 1);
     },
     showLevelDivider() {
       this.betweenLevel = true;

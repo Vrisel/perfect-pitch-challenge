@@ -8,7 +8,7 @@
       class="float-right my-2"
     />
     <div class="clearfix mb-4" />
-    <AnswerButtons
+    <PianoButtons
       :include-accidentals="includeAccidentals"
       :disabled="disabled"
       class="my-3"
@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import AnswerButtons from './AnswerButtons.vue';
+import PianoButtons from './PianoButtons.vue';
 import PlayButton from './PlayButton.vue';
 export default {
-  components: { PlayButton, AnswerButtons },
+  components: { PlayButton, PianoButtons },
   props: {
     pitch: { type: Number, default: 440 },
     minNote: { type: String, required: true },
