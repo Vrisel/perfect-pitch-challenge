@@ -29,6 +29,7 @@
           v-bind="levels[currentLevel - 1]"
           :pitch="pitch"
           @answered="gotAnswer($event)"
+          @stopped="showResult"
         />
       </div>
     </template>

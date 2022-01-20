@@ -14,6 +14,9 @@
       class="my-3"
       @click="checkAnswer($event)"
     />
+    <v-btn color="secondary" class="float-right" @click="stopGame">
+      그만하기
+    </v-btn>
   </div>
 </template>
 
@@ -122,6 +125,11 @@ export default {
         'G#',
       ][rem];
       return note + octave;
+    },
+    stopGame() {
+      if (confirm('챌린지를 중단하고 결과를 확인하시겠습니까?')) {
+        this.$emit('stopped');
+      }
     },
   },
 };
