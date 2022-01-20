@@ -2,7 +2,7 @@
   <main class="d-flex flex-column align-center">
     <h1 class="title">절대음감 챌린지</h1>
     <v-card class="pa-3">
-      <v-form class="text-center" @submit.prevent="startChallenge">
+      <v-form class="text-center" @submit.prevent>
         <div class="d-flex flex-column">
           <label class="mb-2">
             Pitch:
@@ -24,7 +24,15 @@
             :frequency="pitch"
             class="mb-2"
           />
-          <v-btn type="submit" color="primary">시작하기</v-btn>
+          <v-btn type="button" color="primary" @click="startChallenge('normal')"
+            >일반모드</v-btn
+          >
+          <v-btn
+            type="button"
+            color="warning"
+            @click="startChallenge('survival')"
+            >서바이벌</v-btn
+          >
         </div>
       </v-form>
     </v-card>
@@ -42,8 +50,26 @@ export default {
     };
   },
   methods: {
-    startChallenge() {
-      this.$router.push({ path: '/challenge', query: { pitch: this.pitch } });
+    startChallenge(mode = 'normal') {
+      let confirmMsg;
+      switch (mode) {
+        case 'normal':
+          confirmMsg =
+            '일반 모드에서는 6단계의 난이도로 각 10개의 문제가 주어집니다.';
+          break;
+        case 'survival':
+          confirmMsg =
+            '서바이벌 모드에서는 처음부터 C3~B5 범위(검은건반 포함)의 음이 주어지며, 총 세 번 틀릴 경우 게임이 종료됩니다.';
+          break;
+        default:
+          return;
+      }
+      if (confirm(confirmMsg)) {
+        this.$router.push({
+          path: `/challenge/${mode}`,
+          query: { pitch: this.pitch },
+        });
+      }
     },
   },
 };

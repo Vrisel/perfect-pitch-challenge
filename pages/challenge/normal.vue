@@ -1,41 +1,12 @@
 <template>
   <main class="d-flex flex-column justify-center">
     <template v-if="!finished">
-      <div class="d-flex justify-center align-center mb-4">
-        <h1 class="mr-3 border pa-3">
-          레벨 {{ `${currentLevel}/${allots.length}` }}
-        </h1>
-        <div class="mb-0">
-          <p class="mb-0">배점: {{ levels[currentLevel - 1].allot }}점</p>
-          <p class="mb-0">
-            음 범위:
-            <span
-              :class="{
-                'red--text': levels[currentLevel - 1].minNote === 'C3',
-              }"
-            >
-              {{ levels[currentLevel - 1].minNote }}
-            </span>
-            ~
-            <span
-              :class="{
-                'red--text': levels[currentLevel - 1].maxNote === 'B5',
-              }"
-            >
-              {{ levels[currentLevel - 1].maxNote }}
-            </span>
-          </p>
-          <p
-            class="mb-0"
-            :class="{
-              'red--text': levels[currentLevel - 1].includeAccidentals,
-            }"
-          >
-            검은건반
-            {{ levels[currentLevel - 1].includeAccidentals ? '' : '비' }}포함
-          </p>
-        </div>
-      </div>
+      <ChallengeStatus
+        mode="normal"
+        :current-level="currentLevel"
+        :max-level="maxLevel"
+        v-bind="levels[currentLevel - 1]"
+      />
       <p class="mb-4 text-center">
         현재 점수: {{ `${currentScore} / ${maxScore}` }}점
         <br />
@@ -65,7 +36,6 @@
       v-else
       :pitch="pitch"
       :score="currentScore"
-      :max-score="maxScore"
       :wrong-sum="wrongSum"
     />
 
@@ -73,10 +43,10 @@
       v-model="snackbar"
       timeout="2000"
       bottom
-      :color="isCorrect ? 'green' : 'red'"
+      :color="isCorrect ? 'success' : 'error'"
       content-class="text-center"
     >
-      {{ isCorrect ? '정답!' : '다시 생각해보세요.' }}
+      {{ isCorrect ? '정답😆' : '아까워요😢' }}
     </v-snackbar>
   </main>
 </template>
