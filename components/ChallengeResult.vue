@@ -41,7 +41,10 @@ export default {
   },
   methods: {
     async shareGame() {
-      if (typeof navigator.share !== 'undefined') {
+      if (
+        typeof navigator.share !== 'undefined' &&
+        /[Ww]indows?/.test(navigator.userAgent) === false
+      ) {
         await navigator.share({
           // title: '🎹절대음감 챌린지',
           text: this.shareText,
