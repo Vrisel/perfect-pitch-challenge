@@ -15,9 +15,14 @@
 
       <template v-if="betweenLevel">
         <p class="text-center">
-          <strong>레벨 당 {{ levelSteps }}문제가 출제됩니다.</strong>
+          <strong v-if="currentLevel === 1">
+            레벨 당 {{ levelSteps }}문제가 출제됩니다.
+          </strong>
+          <strong v-else>레벨 업! 위쪽에서 바뀐 조건을 확인해주세요.</strong>
         </p>
-        <v-btn x-large @click="betweenLevel = false">시작!</v-btn>
+        <v-btn x-large color="primary" @click="betweenLevel = false">
+          시작!
+        </v-btn>
       </template>
       <div v-else>
         <p class="float-left mb-0">

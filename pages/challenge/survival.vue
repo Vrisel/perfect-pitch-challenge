@@ -12,7 +12,9 @@
         <p class="text-center">
           <strong>세 번 틀릴 때까지 문제가 계속해서 나옵니다.</strong>
         </p>
-        <v-btn x-large @click="beforeLevel = false">시작!</v-btn>
+        <v-btn x-large color="warning" @click="beforeLevel = false">
+          시작!
+        </v-btn>
       </template>
       <div v-else>
         <p class="float-left mb-0">Pitch: {{ pitch }}㎐ A</p>
