@@ -1,10 +1,18 @@
 <template>
-  <v-container class="text-center">
+  <v-container class="d-flex flex-column text-center">
     <h1 class="mb-4">🎊최종결과🎊</h1>
     <p>{{ resultText }}</p>
-    <v-btn @click="shareGame">
+    <v-btn x-large @click="shareGame">
       결과 공유하기
       <v-icon>mdi-share-variant</v-icon>
+    </v-btn>
+    <v-btn
+      color="secondary"
+      class="mt-12 align-self-end"
+      @click="$router.push('/')"
+    >
+      <v-icon>mdi-home</v-icon>
+      처음으로
     </v-btn>
   </v-container>
 </template>
