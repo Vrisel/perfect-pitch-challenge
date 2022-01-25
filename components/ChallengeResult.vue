@@ -6,11 +6,7 @@
       결과 공유하기
       <v-icon>mdi-share-variant</v-icon>
     </v-btn>
-    <v-btn
-      color="secondary"
-      class="mt-12 align-self-end"
-      @click="$router.push('/')"
-    >
+    <v-btn color="secondary" class="mt-12 align-self-end" @click="goHome">
       <v-icon>mdi-home</v-icon>
       처음으로
     </v-btn>
@@ -65,6 +61,11 @@ export default {
           .catch(() =>
             alert('공유 메시지를 복사하는 과정에서 오류가 발생했습니다.')
           );
+      }
+    },
+    goHome() {
+      if (confirm('결과가 초기화됩니다. 첫 화면으로 돌아가시겠습니까?')) {
+        this.$router.push('/');
       }
     },
   },
