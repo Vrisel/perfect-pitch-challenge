@@ -73,37 +73,37 @@ export default {
       levelSteps: process.env.NODE_ENV === 'production' ? 10 : 3,
       levels: [
         {
-          allot: 1,
-          minNote: 'C4',
-          maxNote: 'B4',
-          includeAccidentals: false,
-        },
-        {
           allot: 2,
           minNote: 'C4',
           maxNote: 'B4',
-          includeAccidentals: true,
+          includeAccidentals: false,
         },
         {
           allot: 3,
           minNote: 'C4',
-          maxNote: 'B5',
-          includeAccidentals: false,
+          maxNote: 'B4',
+          includeAccidentals: true,
         },
         {
           allot: 4,
           minNote: 'C4',
           maxNote: 'B5',
+          includeAccidentals: false,
+        },
+        {
+          allot: 7,
+          minNote: 'C4',
+          maxNote: 'B5',
           includeAccidentals: true,
         },
         {
-          allot: 5,
+          allot: 6,
           minNote: 'C3',
           maxNote: 'B5',
           includeAccidentals: false,
         },
         {
-          allot: 6,
+          allot: 10,
           minNote: 'C3',
           maxNote: 'B5',
           includeAccidentals: true,

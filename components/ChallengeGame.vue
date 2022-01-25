@@ -9,9 +9,13 @@
     />
     <div class="clearfix mb-4" />
     <PianoButtons
+      v-for="octave of octaves"
+      :key="octave"
+      :octave="octave"
       :include-accidentals="includeAccidentals"
       :disabled="disabled"
       class="my-3"
+      :class="`keyboard-${octaves.length}`"
       @click="checkAnswer($event)"
     />
     <v-btn color="secondary" class="float-right" @click="stopGame">
@@ -48,14 +52,27 @@ export default {
     frequency() {
       return this.pitch * Math.pow(2, this.noteToInt(this.answer) / 12);
     },
+    octaves() {
+      const minOctave =
+        parseInt(this.minNote.match(/^[A-G][b#]?([-]?\d+)$/)[1]) || 4;
+      const maxOctave =
+        parseInt(this.maxNote.match(/^[A-G][b#]?([-]?\d+)$/)[1]) || 4;
+      if (minOctave > maxOctave) throw new Error('옥타브 범위 오류');
+
+      const result = [];
+      for (let i = minOctave; i <= maxOctave; i++) {
+        result.push(i);
+      }
+      return result;
+    },
   },
   methods: {
     checkAnswer(note) {
-      if (note === this.answer.slice(0, this.answer.length - 1)) {
+      if (note === this.answer) {
         this.$emit('answered', true);
         this.nextAnswer();
         this.step += 1;
-        this.disabled = [];
+        this.disabled = [note];
       } else {
         this.$set(this.disabled, this.disabled.length, note);
         this.$emit('answered', false);
@@ -135,4 +152,19 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.keyboard-1,
+.keyboard-2,
+.keyboard-3 {
+  font-size: 12px;
+}
+.keyboard-1 {
+  --height: 12em;
+}
+.keyboard-2 {
+  --height: calc(145px / 1.5);
+}
+.keyboard-3 {
+  --height: calc(145px / 2);
+}
+</style>

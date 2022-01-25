@@ -23,10 +23,11 @@ export default {
         return [];
       },
     },
+    octave: { type: Number, default: 4 },
   },
-  data() {
-    return {
-      noteCandidates: [
+  computed: {
+    noteCandidates() {
+      return [
         'C',
         'C#',
         'D',
@@ -39,10 +40,8 @@ export default {
         'A',
         'A#',
         'B',
-      ],
-    };
-  },
-  computed: {
+      ].map((note) => note + this.octave);
+    },
     isDisabled() {
       return this.noteCandidates.reduce((acc, curr) => {
         acc[curr] =
@@ -60,16 +59,17 @@ export default {
   text-transform: none !important;
   min-width: 0 !important;
   align-items: flex-end !important;
+  font-size: inherit !important;
 }
 .white-key {
-  width: 47px !important;
-  height: 145px !important;
+  width: 3.9167em !important;
+  height: calc(var(--height) * 1) !important;
   color: black !important;
   background-color: white !important;
 }
 .black-key {
-  width: 24px !important;
-  height: 95px !important;
+  width: 2em !important;
+  height: calc(var(--height) * 0.655172) !important;
   color: white !important;
   background-color: black !important;
   position: absolute;
