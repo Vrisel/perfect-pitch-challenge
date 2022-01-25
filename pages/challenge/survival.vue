@@ -21,6 +21,7 @@
         <ChallengeGame
           v-bind="level"
           :pitch="pitch"
+          mode="survival"
           @answered="gotAnswer($event)"
           @stopped="showResult"
         />

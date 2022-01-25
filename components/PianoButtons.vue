@@ -23,7 +23,7 @@ export default {
         return [];
       },
     },
-    octave: { type: Number, default: 4 },
+    octave: { type: [Number, String], default: '' },
   },
   computed: {
     noteCandidates() {

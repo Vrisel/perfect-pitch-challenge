@@ -31,6 +31,7 @@ export default {
   components: { PlayButton, PianoButtons },
   props: {
     pitch: { type: Number, default: 440 },
+    mode: { type: String, default: 'normal' },
     minNote: { type: String, required: true },
     maxNote: { type: String, required: true },
     includeAccidentals: { type: Boolean, required: true },
@@ -53,17 +54,21 @@ export default {
       return this.pitch * Math.pow(2, this.noteToInt(this.answer) / 12);
     },
     octaves() {
-      const minOctave =
-        parseInt(this.minNote.match(/^[A-G][b#]?([-]?\d+)$/)[1]) || 4;
-      const maxOctave =
-        parseInt(this.maxNote.match(/^[A-G][b#]?([-]?\d+)$/)[1]) || 4;
-      if (minOctave > maxOctave) throw new Error('옥타브 범위 오류');
+      if (this.mode === 'survival') {
+        return [''];
+      } else {
+        const minOctave =
+          parseInt(this.minNote.match(/^[A-G][b#]?([-]?\d+)$/)[1]) || 4;
+        const maxOctave =
+          parseInt(this.maxNote.match(/^[A-G][b#]?([-]?\d+)$/)[1]) || 4;
+        if (minOctave > maxOctave) throw new Error('옥타브 범위 오류');
 
-      const result = [];
-      for (let i = minOctave; i <= maxOctave; i++) {
-        result.push(i);
+        const result = [];
+        for (let i = minOctave; i <= maxOctave; i++) {
+          result.push(i);
+        }
+        return result;
       }
-      return result;
     },
   },
   methods: {
@@ -73,6 +78,11 @@ export default {
         this.nextAnswer();
         this.step += 1;
         this.disabled = [note];
+      } else if (note === this.answer.slice(0, -1)) {
+        this.$emit('answered', true);
+        this.nextAnswer();
+        this.step += 1;
+        this.disabled = [];
       } else {
         this.$set(this.disabled, this.disabled.length, note);
         this.$emit('answered', false);
