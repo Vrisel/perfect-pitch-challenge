@@ -20,7 +20,11 @@
           </strong>
           <strong v-else>레벨 업! 위쪽에서 바뀐 조건을 확인해주세요.</strong>
         </p>
-        <v-btn x-large color="green white--text" @click="betweenLevel = false">
+        <v-btn
+          x-large
+          color="red accent-3 white--text"
+          @click="betweenLevel = false"
+        >
           시작!
         </v-btn>
       </template>
@@ -33,7 +37,7 @@
         <ChallengeGame
           v-bind="levels[currentLevel - 1]"
           :pitch="pitch"
-          mode="normal"
+          mode="hard"
           @answered="gotAnswer($event)"
           @stopped="showResult"
         />
@@ -86,25 +90,25 @@ export default {
           includeAccidentals: true,
         },
         {
-          allot: 3,
+          allot: 4,
           minNote: 'C4',
           maxNote: 'B5',
           includeAccidentals: false,
         },
         {
-          allot: 4,
+          allot: 7,
           minNote: 'C4',
           maxNote: 'B5',
           includeAccidentals: true,
         },
         {
-          allot: 4,
+          allot: 6,
           minNote: 'C3',
           maxNote: 'B5',
           includeAccidentals: false,
         },
         {
-          allot: 5,
+          allot: 10,
           minNote: 'C3',
           maxNote: 'B5',
           includeAccidentals: true,

@@ -12,7 +12,7 @@
         <p class="text-center">
           <strong>세 번 틀릴 때까지 문제가 계속해서 나옵니다.</strong>
         </p>
-        <v-btn x-large color="warning" @click="beforeLevel = false">
+        <v-btn x-large color="orange white--text" @click="beforeLevel = false">
           시작!
         </v-btn>
       </template>

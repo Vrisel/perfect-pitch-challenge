@@ -54,7 +54,7 @@ export default {
       return this.pitch * Math.pow(2, this.noteToInt(this.answer) / 12);
     },
     octaves() {
-      if (this.mode === 'survival') {
+      if (this.mode !== 'hard') {
         return [''];
       } else {
         const minOctave =

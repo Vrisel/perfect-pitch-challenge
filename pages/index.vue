@@ -22,17 +22,32 @@
             :play-on-render="false"
             button-text="들어보기"
             :frequency="pitch"
-            class="mb-2"
+            class="mb-4"
           />
-          <v-btn type="button" color="primary" @click="startChallenge('normal')"
-            >일반모드</v-btn
-          >
           <v-btn
             type="button"
-            color="warning"
-            @click="startChallenge('survival')"
-            >서바이벌</v-btn
+            color="green white--text"
+            class="mb-1"
+            @click="startChallenge('normal')"
           >
+            일반모드
+          </v-btn>
+          <v-btn
+            type="button"
+            color="red accent-3 white--text"
+            class="mb-1"
+            @click="startChallenge('hard')"
+          >
+            하드모드
+          </v-btn>
+          <v-btn
+            type="button"
+            color="orange white--text"
+            class="mb-1"
+            @click="startChallenge('survival')"
+          >
+            서바이벌
+          </v-btn>
         </div>
       </v-form>
     </v-card>
@@ -56,6 +71,10 @@ export default {
         case 'normal':
           confirmMsg =
             '일반 모드에서는 6단계의 난이도로 각 10개의 문제가 주어집니다.';
+          break;
+        case 'hard':
+          confirmMsg =
+            '하드 모드에 출제되는 문제는 일반 모드와 같지만, 옥타브까지 정확하게 맞히셔야 합니다.';
           break;
         case 'survival':
           confirmMsg =
