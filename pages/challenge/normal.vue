@@ -13,17 +13,17 @@
         틀린 개수: {{ wrongSum }}개
       </p>
 
-      <template v-if="betweenLevel">
-        <p class="text-center">
-          <strong v-if="currentLevel === 1">
-            레벨 당 {{ levelSteps }}문제가 출제됩니다.
-          </strong>
-          <strong v-else>레벨 업! 위쪽에서 바뀐 조건을 확인해주세요.</strong>
-        </p>
-        <v-btn x-large color="green white--text" @click="betweenLevel = false">
-          시작!
-        </v-btn>
-      </template>
+      <ChallengeBeforeLevel
+        v-if="beforeLevel"
+        :is-first-level="currentLevel === 1"
+        :level-steps="levelSteps"
+        btn-color="green white--text"
+        :btn-function="
+          () => {
+            beforeLevel = false;
+          }
+        "
+      />
       <div v-else>
         <p class="float-left mb-0">
           Step: {{ `${currentStep} / ${levelSteps}` }}
@@ -52,11 +52,18 @@
 
 <script>
 import Vue from 'vue';
+import ChallengeStatus from '~/components/ChallengeStatus.vue';
+import ChallengeBeforeLevel from '~/components/ChallengeBeforeLevel.vue';
 import ChallengeGame from '~/components/ChallengeGame.vue';
 import ChallengeResult from '~/components/ChallengeResult.vue';
 export default {
   name: 'ChallengePage',
-  components: { ChallengeGame, ChallengeResult },
+  components: {
+    ChallengeStatus,
+    ChallengeBeforeLevel,
+    ChallengeGame,
+    ChallengeResult,
+  },
   asyncData({ query }) {
     return {
       pitch: parseInt(query.pitch) || 440,
@@ -67,7 +74,7 @@ export default {
       currentLevel: 1,
       currentStep: 1,
       wrongAnswers: [],
-      betweenLevel: true,
+      beforeLevel: true,
       finished: false,
       alertActive: false,
       isCorrect: false,
@@ -173,7 +180,7 @@ export default {
       }, 1);
     },
     showLevelDivider() {
-      this.betweenLevel = true;
+      this.beforeLevel = true;
     },
     showResult() {
       this.finished = true;

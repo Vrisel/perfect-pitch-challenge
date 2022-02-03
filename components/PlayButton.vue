@@ -43,10 +43,10 @@ export default {
   methods: {
     generateSound() {
       this.disabled = true;
-      this.synth.triggerAttackRelease(this.frequency, 2);
       setTimeout(() => {
         this.disabled = false;
       }, 3000);
+      this.synth.triggerAttackRelease(this.frequency, 2);
     },
   },
 };

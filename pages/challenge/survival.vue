@@ -8,14 +8,23 @@
         틀린 개수: {{ wrongAnswers }}개
       </p>
 
-      <template v-if="beforeLevel">
-        <p class="text-center">
-          <strong>세 번 틀릴 때까지 문제가 계속해서 나옵니다.</strong>
-        </p>
-        <v-btn x-large color="orange white--text" @click="beforeLevel = false">
-          시작!
-        </v-btn>
-      </template>
+      <ChallengeBeforeLevel
+        v-if="beforeLevel"
+        :is-first-level="true"
+        btn-color="orange white--text"
+        :btn-function="
+          () => {
+            beforeLevel = false;
+          }
+        "
+      >
+        <template #default>
+          <p class="mb-2">
+            <strong>세 번 틀릴 때까지</strong> 문제가
+            <strong>계속해서</strong> 나옵니다.
+          </p>
+        </template>
+      </ChallengeBeforeLevel>
       <div v-else>
         <p class="float-left mb-0">Pitch: {{ pitch }}㎐ A</p>
         <ChallengeGame
@@ -45,12 +54,19 @@
 
 <script>
 import ChallengeStatus from '~/components/ChallengeStatus.vue';
+import ChallengeBeforeLevel from '~/components/ChallengeBeforeLevel.vue';
 import ChallengeGame from '~/components/ChallengeGame.vue';
 import ChallengeResult from '~/components/ChallengeResult.vue';
 import AnswerAlert from '~/components/AnswerAlert.vue';
 export default {
   name: 'ChallengeSurvival',
-  components: { ChallengeStatus, ChallengeGame, ChallengeResult, AnswerAlert },
+  components: {
+    ChallengeStatus,
+    ChallengeBeforeLevel,
+    ChallengeGame,
+    ChallengeResult,
+    AnswerAlert,
+  },
   asyncData({ query }) {
     return {
       pitch: parseInt(query.pitch) || 440,
