@@ -2,7 +2,7 @@
   <main class="d-flex flex-column align-center">
     <h1 class="title">절대음감 챌린지</h1>
     <v-card class="pa-3">
-      <v-form class="text-center" @submit.prevent>
+      <v-form class="text-center" @submit.prevent="formSubmit">
         <div class="d-flex flex-column">
           <label class="mb-2">
             피치(Pitch):
@@ -11,8 +11,6 @@
               name="pitch"
               type="number"
               step="1"
-              min="416"
-              max="466"
               class="mx-1 grey lighten-2 text-right"
               style="width: 55px; border: 1px solid #000 !important"
             />
@@ -25,26 +23,26 @@
             class="mb-4"
           />
           <v-btn
-            type="button"
+            type="submit"
             color="green white--text"
             class="mb-1"
-            @click="startChallenge('normal')"
+            @click="mode = 'normal'"
           >
             일반모드
           </v-btn>
           <v-btn
-            type="button"
+            type="submit"
             color="red accent-3 white--text"
             class="mb-1"
-            @click="startChallenge('hard')"
+            @click="mode = 'hard'"
           >
             하드모드
           </v-btn>
           <v-btn
-            type="button"
+            type="submit"
             color="orange white--text"
             class="mb-1"
-            @click="startChallenge('survival')"
+            @click="mode = 'survival'"
           >
             서바이벌
           </v-btn>
@@ -60,30 +58,28 @@ export default {
   data() {
     return {
       pitch: 440,
+      mode: '',
     };
   },
-  methods: {
-    startChallenge(mode = 'normal') {
-      let confirmMsg;
-      switch (mode) {
+  computed: {
+    confirmMsg() {
+      switch (this.mode) {
         case 'normal':
-          confirmMsg =
-            '일반 모드에서는 6단계의 난이도로 각 10개의 문제가 주어집니다.';
-          break;
+          return '일반 모드에서는 6단계의 난이도로 각 10개의 문제가 주어집니다.';
         case 'hard':
-          confirmMsg =
-            '하드 모드에 출제되는 문제는 일반 모드와 같지만, 옥타브까지 정확하게 맞히셔야 합니다.';
-          break;
+          return '하드 모드에 출제되는 문제는 일반 모드와 같지만, 옥타브까지 정확하게 맞히셔야 합니다.';
         case 'survival':
-          confirmMsg =
-            '서바이벌 모드에서는 처음부터 C3~B5 범위(검은건반 포함)의 음이 주어지며, 총 세 번 틀릴 경우 게임이 종료됩니다.';
-          break;
+          return '서바이벌 모드에서는 처음부터 C3~B5 범위(검은건반 포함)의 음이 주어지며, 총 세 번 틀릴 경우 게임이 종료됩니다.';
         default:
-          return;
+          return '';
       }
-      if (confirm(confirmMsg)) {
+    },
+  },
+  methods: {
+    formSubmit() {
+      if (confirm(this.confirmMsg)) {
         this.$router.push({
-          path: `/challenge/${mode}`,
+          path: `/challenge/${this.mode}`,
           query: { pitch: this.pitch },
         });
       }
