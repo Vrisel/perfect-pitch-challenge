@@ -26,9 +26,9 @@
       />
       <div v-else>
         <p class="float-left mb-0">
-          Step: {{ `${currentStep} / ${levelSteps}` }}
+          현재 문제: {{ `${currentStep} / ${levelSteps}` }}
           <br />
-          Pitch: {{ pitch }}㎐ A
+          피치(Pitch): {{ pitch }}㎐ A
         </p>
         <ChallengeGame
           v-bind="levels[currentLevel - 1]"

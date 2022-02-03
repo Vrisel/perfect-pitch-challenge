@@ -5,7 +5,7 @@
       <v-form class="text-center" @submit.prevent>
         <div class="d-flex flex-column">
           <label class="mb-2">
-            Pitch:
+            피치(Pitch):
             <input
               v-model="pitch"
               name="pitch"
@@ -16,7 +16,7 @@
               class="mx-1 grey lighten-2 text-right"
               style="width: 55px; border: 1px solid #000 !important"
             />
-            ㎐ A
+            ㎐ A4
           </label>
           <PlayButton
             :play-on-render="false"
