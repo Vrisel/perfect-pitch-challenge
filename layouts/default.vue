@@ -15,6 +15,7 @@
       >
         <span>Made by <strong>VRISEL</strong></span>
         <v-img
+          eager
           src="/vrisel.png"
           alt="Vrisel Logo"
           max-width="16"
