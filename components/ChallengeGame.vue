@@ -26,14 +26,13 @@
 
 <script>
 export default {
+  inheritAttrs: false, // v-bind에 묶여서 "allot"이 넘어오지 않도록
   props: {
     pitch: { type: Number, default: 440 },
     mode: { type: String, default: 'normal' },
     minNote: { type: String, required: true },
     maxNote: { type: String, required: true },
     includeAccidentals: { type: Boolean, required: true },
-    // eslint-disable-next-line vue/require-default-prop
-    allot: Number, // DOM에 남지 않도록 처리
   },
   data() {
     return {
