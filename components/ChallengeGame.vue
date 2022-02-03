@@ -16,9 +16,9 @@
       :disabled="disabled"
       class="my-3"
       :class="`keyboard-${octaves.length}`"
-      @click="checkAnswer($event)"
+      :answer-function="(note) => checkAnswer(note)"
     />
-    <v-btn color="secondary" class="float-right" @click="stopGame">
+    <v-btn color="secondary" class="float-right" @click="confirmStop">
       그만하기
     </v-btn>
   </div>
@@ -33,6 +33,8 @@ export default {
     minNote: { type: String, required: true },
     maxNote: { type: String, required: true },
     includeAccidentals: { type: Boolean, required: true },
+    isCorrect: { type: Function, required: true },
+    stopGame: { type: Function, required: true },
   },
   data() {
     return {
@@ -78,18 +80,18 @@ export default {
   methods: {
     checkAnswer(note) {
       if (note === this.answer) {
-        this.$emit('answered', true);
+        this.isCorrect(true);
         this.nextAnswer();
         this.step += 1;
         this.disabled = [note];
       } else if (note === this.answer.slice(0, -1)) {
-        this.$emit('answered', true);
+        this.isCorrect(true);
         this.nextAnswer();
         this.step += 1;
         this.disabled = [];
       } else {
         this.$set(this.disabled, this.disabled.length, note);
-        this.$emit('answered', false);
+        this.isCorrect(false);
       }
     },
     nextAnswer() {
@@ -157,9 +159,9 @@ export default {
       ][rem];
       return note + octave;
     },
-    stopGame() {
+    confirmStop() {
       if (confirm('챌린지를 중단하고 결과를 확인하시겠습니까?')) {
-        this.$emit('stopped');
+        this.stopGame();
       }
     },
   },

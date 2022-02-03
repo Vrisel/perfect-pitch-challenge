@@ -6,7 +6,7 @@
       class="key"
       :class="colorClasses(note)"
       :disabled="isDisabled[note]"
-      @click="$emit('click', note)"
+      @click="answerFunction(note)"
     >
       {{ note }}
     </v-btn>
@@ -24,6 +24,7 @@ export default {
       },
     },
     octave: { type: [Number, String], default: '' },
+    answerFunction: {type: Function, required: true}
   },
   computed: {
     noteCandidates() {

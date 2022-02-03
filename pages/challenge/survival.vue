@@ -31,8 +31,8 @@
           v-bind="level"
           :pitch="pitch"
           mode="survival"
-          @answered="gotAnswer($event)"
-          @stopped="showResult"
+          :is-correct="(isCorrect) => gotAnswer(isCorrect)"
+          :stop-game="() => showResult()"
         />
       </div>
     </template>
