@@ -10,7 +10,7 @@
       <p v-if="mode !== 'survival'" class="mb-0">배점: {{ allot }}점</p>
       <p class="mb-0">
         음 범위:
-        <span :class="{ 'red--text': minNote === 'C3' }">
+        <span :class="{ 'blue--text': minNote === 'C3' }">
           {{ minNote }}
         </span>
         ~
