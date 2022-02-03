@@ -55,10 +55,8 @@
 </template>
 
 <script>
-import PlayButton from '~/components/PlayButton.vue';
 export default {
   name: 'HomePage',
-  components: { PlayButton },
   data() {
     return {
       pitch: 440,

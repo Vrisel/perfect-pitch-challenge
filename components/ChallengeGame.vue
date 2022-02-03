@@ -25,10 +25,7 @@
 </template>
 
 <script>
-import PianoButtons from './PianoButtons.vue';
-import PlayButton from './PlayButton.vue';
 export default {
-  components: { PlayButton, PianoButtons },
   props: {
     pitch: { type: Number, default: 440 },
     mode: { type: String, default: 'normal' },

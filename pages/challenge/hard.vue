@@ -53,18 +53,8 @@
 
 <script>
 import Vue from 'vue';
-import ChallengeStatus from '~/components/ChallengeStatus.vue';
-import ChallengeBeforeLevel from '~/components/ChallengeBeforeLevel.vue';
-import ChallengeGame from '~/components/ChallengeGame.vue';
-import ChallengeResult from '~/components/ChallengeResult.vue';
 export default {
   name: 'ChallengePage',
-  components: {
-    ChallengeStatus,
-    ChallengeBeforeLevel,
-    ChallengeGame,
-    ChallengeResult,
-  },
   asyncData({ query }) {
     return {
       pitch: parseInt(query.pitch) || 440,
