@@ -57,20 +57,20 @@ export default {
       const classes = [isBlack ? 'black-key' : 'white-key'];
       const octave = /[-]?\d+$/.exec(note);
       if (!octave) return classes;
-      
+
       if (octave[0] < 4) {
         classes.push('blue--text');
         if (isBlack) {
-          classes.push('text--lighten-2')
+          classes.push('text--lighten-2');
         }
       } else if (octave[0] > 4) {
         classes.push('red--text');
         if (isBlack) {
-          classes.push('text--lighten-2')
+          classes.push('text--lighten-2');
         }
       }
       return classes;
-    }
+    },
   },
 };
 </script>
