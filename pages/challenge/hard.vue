@@ -45,6 +45,7 @@
     </template>
     <ChallengeResult
       v-else
+      mode="hard"
       :pitch="pitch"
       :score="currentScore"
       :wrong-sum="wrongSum"

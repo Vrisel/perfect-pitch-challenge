@@ -31,8 +31,11 @@ export default {
         case 'normal':
           modeText = '🎼일반';
           break;
+        case 'hard':
+          modeText = '🔥하드';
+          break;
         case 'survival':
-          modeText = '🔥서바이벌';
+          modeText = '🧨서바이벌';
           break;
         default:
           break;
