@@ -57,10 +57,18 @@ export default {
       if (this.mode !== 'hard') {
         return [''];
       } else {
+        /* 
+          정규식 의미
+          ^[A-G] : A~G로 시작함
+          [b#]? : b 또는 #이 한 글자 있을 수도 있음
+          (~) : 안의 항목을 포획함
+            [-]? : - 기호가 한 글자 있을 수도 있음
+            \d+$ : 한 자리 이상의 숫자로 끝남
+        */
         const minOctave =
-          parseInt(this.minNote.match(/^[A-G][b#]?([-]?\d+)$/)[1]) || 4;
+          parseInt(this.minNote.match(/^[A-G][b#]?([-]?\d+$)/)[1]) || 4;
         const maxOctave =
-          parseInt(this.maxNote.match(/^[A-G][b#]?([-]?\d+)$/)[1]) || 4;
+          parseInt(this.maxNote.match(/^[A-G][b#]?([-]?\d+$)/)[1]) || 4;
         if (minOctave > maxOctave) throw new Error('옥타브 범위 오류');
 
         const result = [];
