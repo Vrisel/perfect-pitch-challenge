@@ -20,12 +20,7 @@
             />
             ㎐ A4
           </label>
-          <PlayButton
-            :play-on-render="false"
-            button-text="들어보기"
-            :frequency="pitch"
-            class="mb-4"
-          />
+          <PlayButton button-text="들어보기" :frequency="pitch" class="mb-4" />
           <v-btn
             type="submit"
             color="green white--text"

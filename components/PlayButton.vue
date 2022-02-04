@@ -13,7 +13,7 @@ export default {
   props: {
     frequency: { type: Number, required: true },
     buttonText: { type: String, default: '다시 듣기' },
-    playOnRender: { type: Boolean, default: true },
+    playOnRender: { type: Boolean, default: false },
     step: { type: Number, default: 0 },
   },
   data() {

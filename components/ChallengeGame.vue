@@ -1,7 +1,7 @@
 <template>
   <div>
     <PlayButton
-      :play-on-render="true"
+      play-on-render
       :frequency="frequency"
       :step="step"
       button-text="다시 듣기"
