@@ -42,19 +42,13 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 /* global */
 a:not(.v-btn) {
-  /* color: inherit; */
   text-decoration: none;
-}
-a:not(.v-btn):hover {
-  text-decoration: underline;
-}
-
-/* layout */
-.container {
-  max-width: 36rem;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 /* util */
@@ -67,9 +61,9 @@ a:not(.v-btn):hover {
   display: table;
 }
 .border {
-  border: 1px solid #eaeaea;
+  border: 1px solid #{$border-color-default};
 }
 .border-top {
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid #{$border-color-default};
 }
 </style>
