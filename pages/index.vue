@@ -2,7 +2,11 @@
   <main class="d-flex flex-column align-center">
     <h1 class="title">절대음감 챌린지</h1>
     <v-card class="pa-3">
-      <v-form class="text-center" @submit.prevent="formSubmit">
+      <v-form
+        :action="`/challenge/${mode}`"
+        class="text-center"
+        @submit="formSubmit"
+      >
         <div class="d-flex flex-column">
           <label class="mb-2">
             피치(Pitch):
@@ -76,12 +80,20 @@ export default {
     },
   },
   methods: {
-    formSubmit() {
+    formSubmit(e) {
       if (confirm(this.confirmMsg)) {
-        this.$router.push({
-          path: `/challenge/${this.mode}`,
-          query: { pitch: this.pitch },
-        });
+        // Safari를 특정할 방법이 없어서 Apple 기기 전체에 적용...
+        if (navigator.userAgent.includes('Mac OS')) {
+          return true;
+        } else {
+          e.preventDefault();
+          this.$router.push({
+            path: `/challenge/${this.mode}`,
+            query: { pitch: this.pitch },
+          });
+        }
+      } else {
+        return false;
       }
     },
   },
