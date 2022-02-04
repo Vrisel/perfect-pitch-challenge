@@ -3,7 +3,7 @@
     <h1 class="title">절대음감 챌린지</h1>
     <v-card class="pa-3">
       <v-form
-        :action="`/challenge/${mode}`"
+        :action="`./challenge/${mode}`"
         class="text-center"
         @submit="formSubmit"
       >
@@ -93,6 +93,7 @@ export default {
           });
         }
       } else {
+        e.preventDefault();
         return false;
       }
     },

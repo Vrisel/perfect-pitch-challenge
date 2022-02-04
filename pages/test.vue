@@ -1,6 +1,8 @@
 <template>
-  <div>
-    {{ agent }}
+  <div class="d-flex flex-column">
+    <p>{{ agent }}</p>
+    <a href="/challenge/normal" class="v-btn v-btn--block">/</a>
+    <a href="./challenge/normal" class="v-btn v-btn--block">./</a>
   </div>
 </template>
 
