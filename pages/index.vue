@@ -27,7 +27,7 @@
             class="mb-1"
             @click="mode = 'normal'"
           >
-            일반모드
+            🎼일반모드
           </v-btn>
           <v-btn
             type="submit"
@@ -35,7 +35,7 @@
             class="mb-1"
             @click="mode = 'hard'"
           >
-            하드모드
+            🔥하드모드
           </v-btn>
           <v-btn
             type="submit"
@@ -43,7 +43,7 @@
             class="mb-1"
             @click="mode = 'survival'"
           >
-            서바이벌
+            🧨서바이벌
           </v-btn>
         </div>
       </v-form>
