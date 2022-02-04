@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/challenge/survival", {data:[{pitch:440}],fetch:{},mutations:void 0});
